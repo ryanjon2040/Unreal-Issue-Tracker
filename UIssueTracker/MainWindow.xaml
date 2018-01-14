@@ -1,0 +1,171 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:controls="clr-namespace:UIssueTracker.UserControls"
+        xmlns:local="clr-namespace:UIssueTracker" 
+        x:Name="window" x:Class="UIssueTracker.MainWindow"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <ToolBarTray x:Name="ToolTray" VerticalAlignment="Top" DockPanel.Dock="Top">
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToolBarTray}}}">
+                <Separator />
+                <Button x:Name="UE4_Twitter" ToolTip="Follow Unreal Engine on Twitter" Click="UE4_Twitter_Click">
+                    <materialDesign:PackIcon Kind="Twitter" />
+                </Button>
+                <Button x:Name="UE4_FB" ToolTip="Follow Unreal Engine on Facebook" Click="UE4_FB_Click">
+                    <materialDesign:PackIcon Kind="Facebook" />
+                </Button>
+                <Button x:Name="UE4_Git" ToolTip="Unreal Engine Github" Click="UE4_Git_Click">
+                    <materialDesign:PackIcon Kind="GithubCircle" />
+                </Button>
+                <Separator />
+                <Button x:Name="Satheesh_Twitter" ToolTip="Follow Satheesh (ryanjon2040) on Twitter" Click="Satheesh_Twitter_Click">
+                    <materialDesign:PackIcon Kind="TwitterBox" />
+                </Button>
+                <Button x:Name="Satheesh_FB" ToolTip="Follow Satheesh (ryanjon2040) on Facebook" Click="Satheesh_FB_Click">
+                    <materialDesign:PackIcon Kind="FacebookBox" />
+                </Button>
+                <Button x:Name="Satheesh_Git" ToolTip="Satheesh (ryanjon2040) Github" Click="Satheesh_Git_Click">
+                    <materialDesign:PackIcon Kind="GithubBox" />
+                </Button>
+                <materialDesign:ColorZone Margin="6" Padding="5" materialDesign:ShadowAssist.ShadowDepth="Depth3" >
+                    <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                            </Button>
+                            <TextBox x:Name="IssueSearchText" Grid.Column="1" MinWidth="200" Margin="8,0,0,0" VerticalAlignment="Center" materialDesign:HintAssist.Hint="UE-12345 or search" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" />
+                        </Grid>
+                        <Button x:Name="SearchIssue_Btn" Margin="8,0,0,0" Panel.ZIndex="0" Style="{DynamicResource MaterialDesignToolForegroundButton}" Click="SearchIssue_Btn_Click">
+                            <materialDesign:PackIcon Kind="Send" />
+                        </Button>
+                    </StackPanel>
+                </materialDesign:ColorZone>
+                <Separator />
+                <!--<Button  Margin="425,0,0,0">
+                    <materialDesign:PackIcon Kind="WindowMinimize" />
+                </Button>
+                <Button>
+                    <materialDesign:PackIcon Kind="WindowMaximize" />
+                </Button>
+                <Button>
+                    <materialDesign:PackIcon Kind="WindowClose" />
+                </Button>-->
+            </ToolBar>
+        </ToolBarTray>
+        <materialDesign:Transitioner x:Name="MyTransitioner" SelectedIndex="0">
+            <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect FadeIn}">
+                <Grid>
+                    <DockPanel>
+                        <Expander Margin="16"  DockPanel.Dock="Top">
+                            <Expander.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Width="32" Height="32" VerticalAlignment="Center" Kind="Account" />
+                                        <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryAccentBrush}" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="SUBSCRIBED ISSUES" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Expander.HeaderTemplate>
+                            <ScrollViewer Margin="10" MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}">
+                                <StackPanel x:Name="SubscribedIssuesContainer"/>
+                            </ScrollViewer>
+                        </Expander>
+
+                        <Border Margin="16,0,16,0" Height="1" HorizontalAlignment="Stretch" Background="{DynamicResource MaterialDesignDivider}" SnapsToDevicePixels="True" DockPanel.Dock="Top" />
+                        <Expander Margin="16" IsExpanded="True" DockPanel.Dock="Top">
+                            <Expander.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Width="32" Height="32" VerticalAlignment="Center" Kind="Bug" />
+                                        <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryAccentBrush}" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="LATEST BUGS" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Expander.HeaderTemplate>
+                            <ScrollViewer Margin="10" MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}">
+                                <Grid>
+                                    <ProgressBar x:Name="BugsLoadingBar"  Margin="12,12,12,12" HorizontalAlignment="Center" VerticalAlignment="Center" IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" />
+                                    <StackPanel x:Name="BugsContainer"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Expander>
+
+                        <Border Margin="16,0,16,0" Height="1" HorizontalAlignment="Stretch" Background="{DynamicResource MaterialDesignDivider}" SnapsToDevicePixels="True" DockPanel.Dock="Top" />
+                        <Expander Margin="16" IsExpanded="True" DockPanel.Dock="Top">
+                            <Expander.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Width="32" Height="32" VerticalAlignment="Center" Kind="Cat" />
+                                        <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryAccentBrush}" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="LATEST FIXES" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Expander.HeaderTemplate>
+                            <ScrollViewer Margin="10" MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}">
+                                <Grid>
+                                    <ProgressBar x:Name="FixesLoadingBar" Margin="12,12,12,12" HorizontalAlignment="Center" VerticalAlignment="Center" IsIndeterminate="True" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" />
+                                    <StackPanel x:Name="FixesContainer"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Expander>
+
+                        <Border Margin="16,0,16,0" Height="1" HorizontalAlignment="Stretch" Background="{DynamicResource MaterialDesignDivider}" SnapsToDevicePixels="True" DockPanel.Dock="Top" />
+                        <Expander x:Name="HistoryCategory" Margin="16" IsExpanded="True" VerticalAlignment="Stretch">
+                            <Expander.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Width="32" Height="32" VerticalAlignment="Center" Kind="History" />
+                                        <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource SecondaryAccentBrush}" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="HISTORY" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Expander.HeaderTemplate>
+                            <ScrollViewer Margin="10" Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Expander}}}">
+                                <Grid>
+                                    <StackPanel x:Name="HistoryContainer"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Expander>
+                    </DockPanel>
+                    <materialDesign:DialogHost x:Name="NumberOfIssuesFixedDialogHost" IsOpen="False">
+                        <materialDesign:DialogHost.DialogContent>
+                            <StackPanel>
+                                <TextBlock x:Name="NumberOfIssuesFixed" Margin="16" Style="{StaticResource MaterialDesignButtonTextBlock}"># ISSUES FIXED</TextBlock>
+                                <Button Margin="16" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">EPIC FTW! :)</Button>
+                            </StackPanel>
+                        </materialDesign:DialogHost.DialogContent>
+                    </materialDesign:DialogHost>
+                </Grid>
+            </materialDesign:TransitionerSlide>
+            <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect FadeIn}">
+                <Grid>
+                    <StackPanel>
+                        <controls:IssueDetails x:Name="IssueDetail"/>
+                        <Button Margin="16" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{x:Static materialDesign:Transitioner.MovePreviousCommand}" Style="{DynamicResource MaterialDesignFloatingActionMiniButton}">
+                            <materialDesign:PackIcon Kind="StepBackward" />
+                        </Button>
+                    </StackPanel>
+                    <materialDesign:DialogHost x:Name="MyDialogHost" IsOpen="False">
+                        <materialDesign:DialogHost.DialogContent>
+                            <StackPanel>
+                                <ProgressBar Margin="16" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True" />
+                                <TextBlock Margin="16" Style="{StaticResource MaterialDesignButtonTextBlock}">HOLD ON...ALMOST THERE</TextBlock>
+                            </StackPanel>
+                        </materialDesign:DialogHost.DialogContent>
+                    </materialDesign:DialogHost>
+                </Grid>
+            </materialDesign:TransitionerSlide>
+        </materialDesign:Transitioner>
+    </DockPanel>
+</Window>

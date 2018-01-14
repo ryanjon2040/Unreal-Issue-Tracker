@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="UIssueTracker.UserControls.IssueDetails"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            Background="{DynamicResource MaterialDesignPaper}"
+            TextElement.FontWeight="Medium"
+            TextElement.FontSize="14"
+            FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+            mc:Ignorable="d" 
+            d:DesignWidth="1280">
+    <DockPanel>
+        <materialDesign:DrawerHost BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="2" IsRightDrawerOpen="False">
+            <materialDesign:DrawerHost.RightDrawerContent>
+                <StackPanel Margin="16">
+                    <TextBlock Margin="4" HorizontalAlignment="Center">DETAILS</TextBlock>
+                    <Button x:Name="Component_Btn" Margin="4" HorizontalAlignment="Center" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" CommandParameter="{x:Static Dock.Right}" Style="{DynamicResource MaterialDesignFlatButton}">
+                        CLOSE THIS
+                    </Button>
+                    <StackPanel x:Name="SideStackPanel">
+                        
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:DrawerHost.RightDrawerContent>
+            <StackPanel>
+                <TextBlock x:Name="IssueTitle" Margin="0,4,0,0" Style="{StaticResource MaterialDesignHeadlineTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" Text="ISSUE_TITLE"></TextBlock>
+                <Border Height="10" Margin="16"  HorizontalAlignment="Stretch" Background="{DynamicResource MaterialDesignDivider}" SnapsToDevicePixels="True" />
+                <Expander Margin="16,16,16,0" Header="Description" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0" IsExpanded="True">
+                    <ScrollViewer MaxHeight="450" VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="IssueDescription" TextWrapping="Wrap" Text="Test" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBlock>
+                    </ScrollViewer>
+                </Expander>
+                <Border Height="1" Margin="16" HorizontalAlignment="Stretch" Background="{DynamicResource MaterialDesignDivider}" SnapsToDevicePixels="True" />
+                <Expander Margin="16,16,16,0" Header="Steps To Reproduce" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
+                    <ScrollViewer MaxHeight="450" VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="IssueReproduceSteps" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBlock>
+                    </ScrollViewer>
+                </Expander>
+                <StackPanel Orientation="Horizontal" Margin="16,16,16,0" HorizontalAlignment="Right">
+                    <DockPanel>
+                        <materialDesign:ColorZone x:Name="IssueStatusColor" Margin="0,16,0,16" Padding="8" Mode="Accent" Background="#FF304FFE" Width="150">
+                            <TextBlock x:Name="IssueStatus" HorizontalAlignment="Center">Unresolved</TextBlock>
+                        </materialDesign:ColorZone>
+                        <Button x:Name="AnswerHubLinkBtn" HorizontalAlignment="Left" Margin="0,0,0,0" Style="{StaticResource MaterialDesignFlatButton}" Click="AnswerHubLinkBtn_Click">VISIT ANSWER HUB</Button>
+                        <Button HorizontalAlignment="Right" Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}" Style="{StaticResource MaterialDesignFlatButton}" CommandParameter="{x:Static Dock.Right}">MORE INFORMATION</Button>
+                        <Button x:Name="Subscribe_Btn" Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Right" Click="Subscribe_Btn_Click" >SUBSCRIBE</Button>
+                    </DockPanel>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:DrawerHost>        
+    </DockPanel>
+</UserControl>
